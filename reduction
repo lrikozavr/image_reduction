@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <iostream>
+#include <string.h>
+#include <cmath>
+using namespace std;
+
+int power_number(int origin[],int power)
+{	int result=0;
+	//fprintf(stderr,"%d\n",sizeof(origin));
+	for (int i=sizeof(origin)/4-1, j=0; i>=0; i--, j++)
+	{if(origin[i]<0){origin[i]=0;}; result+=origin[i]*pow(power,j);}
+	return result;
+};
+
+int main()
+{	int m[2];
+	int l;
+	int data[3056][3056];
+	//int sym1,sym2;
+	//char s[100];
+    char pack_header[2880*4];
+    char pack_data[3056*2];
+    FILE *f;
+    f=fopen("A01-1-001-001.fts","rb");
+    FILE *g;
+    g=fopen("test.txt","w");
+    fread(&pack_header,2880*4,1,f);
+    fprintf(stderr,"%d\n",1);
+    /*
+    for (int j=0; j<3056 ; j++)
+    	fread(&pack_data,3056*2,1,f);
+    */
+    for (int j=0; j<3056 ; j++)
+    {	//fprintf(stderr,"%d\n",j);
+    	fread(&pack_data[j],3056*2,1,f);
+    	for (int i=0; i<3056*2 ; i+=2)
+    	{m[0]=(int)pack_data[i]; m[1]=(int)pack_data[i+1];
+    	data[j][i/2]=power_number(m,256);
+    	fprintf(g,"%d\t%c,%c\n",power_number(m,256),pack_data[i],pack_data[i+1]);
+    	}
+    }
+    //sym1=(int)(pack_header[2882*4-1]);
+    //sym2=(int)(pack_header[2882*4-3]);
+   // fprintf(g,"%s\n%s",pack_header,s); //<< endl << sizeof(double);
+
+}
