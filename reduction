@@ -8,7 +8,7 @@ int power_number(int origin[],int power)
 {	int result=0;
 	//fprintf(stderr,"%d\n",sizeof(origin));
 	for (int i=sizeof(origin)/4-1, j=0; i>=0; i--, j++)
-	{if(origin[i]<0){origin[i]=0;}; result+=origin[i]*pow(power,j);}
+	{if(origin[i]<0) {origin[i]+=128;} result+=origin[i]*pow(power,j);}
 	return result;
 };
 
@@ -36,7 +36,7 @@ int main()
     	for (int i=0; i<3056*2 ; i+=2)
     	{m[0]=(int)pack_data[i]; m[1]=(int)pack_data[i+1];
     	data[j][i/2]=power_number(m,256);
-    	fprintf(g,"%d\t%c,%c\n",power_number(m,256),pack_data[i],pack_data[i+1]);
+    	//fprintf(g,"%d\t%d\t%d\t%c,%c\n",power_number(m,256),m[0],m[1],pack_data[i],pack_data[i+1]);
     	}
     }
     //sym1=(int)(pack_header[2882*4-1]);
